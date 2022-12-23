@@ -1,23 +1,26 @@
-FROM node:gallium-slim
+FROM node:18.12.1-buster-slim
 
 # Create app directory
 WORKDIR /usr/src/app
 
+# Install OpenSSL
+RUN apt-get update && apt-get install -y openssl
+
 # Install app dependencies
 COPY package*.json ./
 
-# Install Yarn
-RUN npm install -g yarn
-
 # Bundle app source
-COPY . .
+COPY ./ ./
 
 # COPY .env
 COPY .env ./
 
+# Install Dependencies
+RUN yarn install
+
 # Prisma Deploy
 RUN yarn prisma generate
-RUN yarn prisma deploy
+RUN yarn prisma migrate deploy
 
 EXPOSE 3000
 
