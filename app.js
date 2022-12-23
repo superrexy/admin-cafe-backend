@@ -1,5 +1,5 @@
 const express = require("express");
-const swaggerUi = require("`swagger-ui-express`");
+const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");
 
 // Import Routes

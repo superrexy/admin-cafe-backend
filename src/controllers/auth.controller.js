@@ -408,6 +408,9 @@ module.exports = {
   },
   updateProfile: async (req, res) => {
     try {
+      /* #swagger.security = [{
+               "Bearer": []
+        }] */
       const { first_name, last_name, phone_number, address, birth_date } =
         req.body;
 
