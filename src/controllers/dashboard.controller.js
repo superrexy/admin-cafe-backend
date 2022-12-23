@@ -3,6 +3,9 @@ const prisma = new PrismaClient();
 
 module.exports = {
   statistic: async (req, res) => {
+    /* #swagger.security = [{
+               "Bearer": []
+        }] */
     try {
       const pegawai = await prisma.users.count();
       const ruangan = await prisma.rooms.count();

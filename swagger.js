@@ -8,9 +8,9 @@ const doc = {
     version: "1.0.0",
     title: "Admin Cafe REST API",
   },
-  host: "localhost:3000",
+  host: "adm-cafe-api.rexy.my.id",
   basePath: "/",
-  schemes: ["http"],
+  schemes: ["https"],
   securityDefinitions: {
     Bearer: {
       type: "apiKey",

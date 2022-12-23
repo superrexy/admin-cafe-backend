@@ -22,6 +22,9 @@ RUN yarn install
 RUN yarn prisma generate
 RUN yarn prisma migrate deploy
 
+# Generate Swagger
+RUN yarn swagger
+
 EXPOSE 3000
 
 CMD [ "yarn", "start" ]

@@ -5,11 +5,9 @@
     "title": "Admin Cafe REST API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "adm-cafe-api.rexy.my.id",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["https"],
   "securityDefinitions": {
     "Bearer": {
       "type": "apiKey",
@@ -108,9 +106,7 @@
     "/api/auth/image-update": {
       "post": {
         "description": "",
-        "consumes": [
-          "multipart/form-data"
-        ],
+        "consumes": ["multipart/form-data"],
         "parameters": [
           {
             "name": "authorization",
