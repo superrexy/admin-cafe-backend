@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model users {
+    id            Int       @id @default(autoincrement())
+    first_name    String    @db.VarChar(255)
+    last_name     String?   @db.VarChar(255)
+    email         String    @unique @db.VarChar(255)
+    password      String    @db.VarChar(255)
+    phone_number  String?   @db.VarChar(16)
+    address       String?   @db.VarChar(255)
+    image_profile String?   @db.VarChar(255)
+    birth_date    DateTime? @db.Date()
+    created_at    DateTime  @default(now())
+    updated_at    DateTime  @updatedAt
+}
+
+model user_reset_password {
+    id         Int      @id @default(autoincrement())
+    email      String   @unique @db.VarChar(255)
+    token      String   @db.VarChar(255)
+    expired_at DateTime @db.DateTime()
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}
+
+model rooms {
+    id         Int        @id @default(autoincrement())
+    nama       String     @db.VarChar(255)
+    fasilitas  String     @db.VarChar(255)
+    kapasitas  String     @db.VarChar(255)
+    waktu      String     @db.VarChar(255)
+    harga      Float
+    image      String     @db.VarChar(255)
+    created_at DateTime   @default(now())
+    updated_at DateTime   @updatedAt
+    bookings   bookings[]
+}
+
+model foods_drinks {
+    id           Int            @id @default(autoincrement())
+    nama         String         @db.VarChar(255)
+    harga        Float
+    deskripsi    String?        @db.Text()
+    image        String         @db.VarChar(255)
+    created_at   DateTime       @default(now())
+    updated_at   DateTime       @updatedAt
+    booking_food booking_food[]
+}
+
+model bookings {
+    id            Int            @id @default(autoincrement())
+    nama_pemesan  String         @db.VarChar(255)
+    email_pemesan String         @db.VarChar(255)
+    tgl_pemesanan DateTime       @db.DateTime()
+    total         Float          @default(0)
+    is_paid       Boolean        @default(false)
+    room_id       Int
+    room          rooms          @relation(fields: [room_id], references: [id], onDelete: Cascade)
+    created_at    DateTime       @default(now())
+    updated_at    DateTime       @updatedAt
+    booking_food  booking_food[]
+}
+
+model booking_food {
+    booking_id    Int
+    booking       bookings     @relation(fields: [booking_id], references: [id], onDelete: Cascade)
+    food_drink_id Int
+    food_drink    foods_drinks @relation(fields: [food_drink_id], references: [id], onDelete: Cascade)
+    amount        Int
+    note          String?      @db.Text()
+    total         Float        @default(0)
+
+    @@id([booking_id, food_drink_id])
+}
