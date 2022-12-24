@@ -18,13 +18,9 @@ COPY .env ./
 # Install Dependencies
 RUN yarn install
 
-# Prisma Deploy
-RUN yarn prisma generate
-RUN yarn prisma migrate deploy
-
 # Generate Swagger
 RUN yarn swagger
 
 EXPOSE 3000
 
-CMD [ "yarn", "start" ]
+CMD yarn prisma migrate deploy && yarn prisma generate ; yarn start
