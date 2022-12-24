@@ -1,61 +1,61 @@
 name: Deployment
 
 on:
-    push:
-        branches: ["main"]
-    pull_request:
-        branches: ["main"]
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-            - name: Make envfile
-              uses: SpicyPizza/create-envfile@v1.3
-              with:
-                  envkey_APP_PORT: 3000
-                  envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
-                  envkey_JWT_TOKEN_SECRET: ${{ secrets.JWT_TOKEN_SECRET }}
-                  envkey_JWT_TOKEN_EXPIRED: ${{ secrets.JWT_TOKEN_EXPIRED }}
-                  envkey_CONFIG_SMTP_HOST: ${{ secrets.CONFIG_SMTP_HOST }}
-                  envkey_CONFIG_SMTP_PORT: ${{ secrets.CONFIG_SMTP_PORT }}
-                  envkey_CONFIG_SMTP_EMAIL: ${{ secrets.CONFIG_SMTP_EMAIL }}
-                  envkey_CONFIG_SMTP_PASSWORD: ${{ secrets.CONFIG_SMTP_PASSWORD }}
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_APP_PORT: 3000
+          envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          envkey_JWT_TOKEN_SECRET: ${{ secrets.JWT_TOKEN_SECRET }}
+          envkey_JWT_TOKEN_EXPIRED: ${{ secrets.JWT_TOKEN_EXPIRED }}
+          envkey_CONFIG_SMTP_HOST: ${{ secrets.CONFIG_SMTP_HOST }}
+          envkey_CONFIG_SMTP_PORT: ${{ secrets.CONFIG_SMTP_PORT }}
+          envkey_CONFIG_SMTP_EMAIL: ${{ secrets.CONFIG_SMTP_EMAIL }}
+          envkey_CONFIG_SMTP_PASSWORD: ${{ secrets.CONFIG_SMTP_PASSWORD }}
 
-            - name: Docker Login
-              uses: docker/login-action@v2.1.0
-              with:
-                  username: ${{ secrets.DOCKERHUB_USERNAME }}
-                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker Login
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-            - name: Build and push
-              uses: docker/build-push-action@v3
-              with:
-                  context: .
-                  push: true
-                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/admin-cafe-api:latest
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/admin-cafe-api:latest
 
-            - name: copy file via ssh password
-              uses: appleboy/scp-action@master
-              with:
-                  host: ${{ secrets.SSH_HOST }}
-                  username: ${{ secrets.SSH_USERNAME }}
-                  password: ${{ secrets.SSH_PASSWORD }}
-                  port: ${{ secrets.SSH_PORT }}
-                  source: "."
-                  target: "/root/projects-api/admin-cafe-api"
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "."
+          target: "/root/projects-api/admin-cafe-api"
 
-            - name: Deployment
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.SSH_HOST }}
-                  port: ${{ secrets.SSH_PORT }}
-                  username: ${{ secrets.SSH_USERNAME }}
-                  password: ${{ secrets.SSH_PASSWORD }}
-                  script: |
-                      cd /root/projects-api/admin-cafe-api
-                      docker-compose down
-                      docker-compose up -d
+      - name: Deployment
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd /root/projects-api/admin-cafe-api
+            docker compose down
+            docker compose up -d
