@@ -3,7 +3,7 @@ version: "3.3"
 services:
   api:
     container_name: admin-cafe-api
-    build: .
+    image: bintangrezeka/admin-cafe-api:latest
     env_file:
       - .env
     environment:
