@@ -57,5 +57,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /root/projects-api/admin-cafe-api
-            docker compose down
+            docker compose stop
+            docker compose rm -f
+            docker compose pull
             docker compose up -d
