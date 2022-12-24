@@ -1,0 +1,35 @@
+version: "3.3"
+
+services:
+  api:
+    container_name: admin-cafe-api
+    build: .
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_TOKEN_SECRET=${JWT_TOKEN_SECRET}
+      - JWT_TOKEN_EXPIRED=${JWT_TOKEN_EXPIRED}
+      - CONFIG_SMTP_HOST=${CONFIG_SMTP_HOST}
+      - CONFIG_SMTP_PORT=${CONFIG_SMTP_PORT}
+      - CONFIG_SMTP_EMAIL=${CONFIG_SMTP_EMAIL}
+      - CONFIG_SMTP_PASSWORD=${CONFIG_SMTP_PASSWORD}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./public:/usr/share/app/public
+    depends_on:
+      - database
+  database:
+    container_name: mariadb-sql
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: passwordRexy2022
+      MARIADB_USER: bintangrezeka
+      MARIADB_PASSWORD: passwordRexy2022
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data-sql:/var/lib/mysql
