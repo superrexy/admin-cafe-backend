@@ -23,4 +23,4 @@ RUN yarn swagger
 
 EXPOSE 3000
 
-CMD yarn prisma generate && yarn prisma migrate deploy && yarn start
+CMD yarn prisma generate && yarn prisma migrate deploy && yarn prisma db seed && yarn start
