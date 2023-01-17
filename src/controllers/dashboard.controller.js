@@ -7,7 +7,7 @@ module.exports = {
                "Bearer": []
         }] */
     try {
-      const pegawai = await prisma.users.count();
+      const pegawai = await prisma.users.count({ where: { role: "admin" } });
       const ruangan = await prisma.rooms.count();
       const pesanan = await prisma.bookings.count();
 
