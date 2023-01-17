@@ -6,10 +6,8 @@
 
 */
 -- AlterTable
-ALTER TABLE `booking_food` ADD COLUMN `note` TEXT NULL;
-
--- AlterTable
-ALTER TABLE `bookings` MODIFY `tgl_pemesanan` DATETIME NOT NULL;
+ALTER TABLE `bookings` MODIFY `tgl_pemesanan` DATETIME NOT NULL,
+    MODIFY `user_id` INTEGER NULL;
 
 -- AlterTable
 ALTER TABLE `user_reset_password` MODIFY `expired_at` DATETIME NOT NULL;

@@ -5,6 +5,7 @@ const bookingController = require("../controllers/booking.controller");
 const foodndrinkController = require("../controllers/foodndrink.controller");
 const dashboardController = require("../controllers/dashboard.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
+const adminMiddleware = require("../middlewares/admin.middleware");
 
 const router = express.Router();
 
@@ -39,9 +40,24 @@ router.post(
 // Rooms Route
 router.get("/api/rooms", authMiddleware, roomController.index);
 router.get("/api/rooms/:id", authMiddleware, roomController.show);
-router.post("/api/rooms/create", authMiddleware, roomController.create);
-router.put("/api/rooms/:id/update", authMiddleware, roomController.update);
-router.delete("/api/rooms/:id/delete", authMiddleware, roomController.destroy);
+router.post(
+  "/api/rooms/create",
+  authMiddleware,
+  adminMiddleware,
+  roomController.create
+);
+router.put(
+  "/api/rooms/:id/update",
+  authMiddleware,
+  adminMiddleware,
+  roomController.update
+);
+router.delete(
+  "/api/rooms/:id/delete",
+  authMiddleware,
+  adminMiddleware,
+  roomController.destroy
+);
 
 // Rooms Route
 router.get("/api/foods-drinks", authMiddleware, foodndrinkController.index);
@@ -49,16 +65,19 @@ router.get("/api/foods-drinks/:id", authMiddleware, foodndrinkController.show);
 router.post(
   "/api/foods-drinks/create",
   authMiddleware,
+  adminMiddleware,
   foodndrinkController.create
 );
 router.put(
   "/api/foods-drinks/:id/update",
   authMiddleware,
+  adminMiddleware,
   foodndrinkController.update
 );
 router.delete(
   "/api/foods-drinks/:id/delete",
   authMiddleware,
+  adminMiddleware,
   foodndrinkController.destroy
 );
 
@@ -69,11 +88,13 @@ router.post("/api/bookings/create", authMiddleware, bookingController.create);
 router.put(
   "/api/bookings/:id/update",
   authMiddleware,
+  adminMiddleware,
   bookingController.update
 );
 router.delete(
   "/api/bookings/:id/delete",
   authMiddleware,
+  adminMiddleware,
   bookingController.destroy
 );
 
