@@ -86,3 +86,10 @@ model booking_food {
 
     @@id([booking_id, food_drink_id])
 }
+
+model banners {
+    id         Int      @id @default(autoincrement())
+    image      String   @db.VarChar(255)
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+}

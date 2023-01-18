@@ -4,6 +4,7 @@ const roomController = require("../controllers/room.controller");
 const bookingController = require("../controllers/booking.controller");
 const foodndrinkController = require("../controllers/foodndrink.controller");
 const dashboardController = require("../controllers/dashboard.controller");
+const bannerController = require("../controllers/banner.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 const adminMiddleware = require("../middlewares/admin.middleware");
 
@@ -96,6 +97,28 @@ router.delete(
   authMiddleware,
   adminMiddleware,
   bookingController.destroy
+);
+
+// Banners Route
+router.get("/api/banners", authMiddleware, bannerController.index);
+router.get("/api/banners/:id", authMiddleware, bannerController.show);
+router.post(
+  "/api/banners/create",
+  authMiddleware,
+  adminMiddleware,
+  bannerController.store
+);
+router.put(
+  "/api/banners/:id/update",
+  authMiddleware,
+  adminMiddleware,
+  bannerController.update
+);
+router.delete(
+  "/api/banners/:id/delete",
+  authMiddleware,
+  adminMiddleware,
+  bannerController.destroy
 );
 
 module.exports = router;
