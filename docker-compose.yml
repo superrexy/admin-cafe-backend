@@ -12,8 +12,6 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - JWT_TOKEN_SECRET=${JWT_TOKEN_SECRET}
       - JWT_TOKEN_EXPIRED=${JWT_TOKEN_EXPIRED}
-      - CONFIG_SMTP_HOST=${CONFIG_SMTP_HOST}
-      - CONFIG_SMTP_PORT=${CONFIG_SMTP_PORT}
       - CONFIG_SMTP_EMAIL=${CONFIG_SMTP_EMAIL}
       - CONFIG_SMTP_PASSWORD=${CONFIG_SMTP_PASSWORD}
     ports:
@@ -21,7 +19,7 @@ services:
     volumes:
       - ./public:/usr/src/app/public/
     depends_on:
-      - database
+      - mariadb-sql
   mariadb-sql:
     container_name: mariadb-sql
     image: mariadb
