@@ -20,6 +20,13 @@ module.exports = {
         birth_date,
       } = req.body;
 
+      if (!first_name || !email || !password) {
+        throw {
+          statusCode: 400,
+          message: "DATA_REQUIRED",
+        };
+      }
+
       // Check if user already exists
       const checkDuplicate = await prisma.users.findFirst({
         where: {

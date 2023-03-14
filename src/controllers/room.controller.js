@@ -10,7 +10,11 @@ module.exports = {
                "Bearer": []
         }] */
     try {
-      const rooms = await prisma.rooms.findMany({});
+      const rooms = await prisma.rooms.findMany({
+        orderBy: {
+          quota: "desc",
+        },
+      });
 
       return res.status(200).json({
         status: true,
@@ -70,7 +74,7 @@ module.exports = {
             };
           }
 
-          const { nama, fasilitas, kapasitas, waktu, harga } = req.body;
+          const { nama, fasilitas, kapasitas, waktu, harga, quota } = req.body;
 
           if (!req.file) {
             throw {
@@ -86,6 +90,7 @@ module.exports = {
               kapasitas,
               waktu,
               harga: Number(harga),
+              quota: Number(quota),
               image: req.file ? req.file.path : null,
             },
           });
@@ -124,7 +129,7 @@ module.exports = {
           }
 
           const { id } = req.params;
-          const { nama, fasilitas, kapasitas, waktu, harga } = req.body;
+          const { nama, fasilitas, kapasitas, waktu, harga, quota } = req.body;
 
           const checkRoom = await prisma.rooms.findFirst({
             where: {
@@ -149,6 +154,7 @@ module.exports = {
               kapasitas,
               waktu,
               harga: Number(harga),
+              quota: Number(quota),
             },
           });
 

@@ -8,4 +8,11 @@ module.exports = {
 
     return text;
   },
+  e164: function (phone) {
+    if (phone.startsWith("0")) {
+      phone = phone.replace("0", "+62");
+    }
+
+    return phone;
+  },
 };

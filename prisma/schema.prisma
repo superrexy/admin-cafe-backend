@@ -43,6 +43,7 @@ model rooms {
     waktu      String     @db.VarChar(255)
     harga      Float
     image      String     @db.VarChar(255)
+    quota      Int        @default(0)
     created_at DateTime   @default(now())
     updated_at DateTime   @updatedAt
     bookings   bookings[]
@@ -59,20 +60,38 @@ model foods_drinks {
     booking_food booking_food[]
 }
 
+enum payment_method {
+    SETTLEMENT
+    PENDING
+    EXPIRE
+    CANCEL
+    DENY
+}
+
+enum payment_type {
+    shopeepay
+    gopay
+    qris
+    cash
+}
+
 model bookings {
-    id            Int            @id @default(autoincrement())
-    nama_pemesan  String         @db.VarChar(255)
-    email_pemesan String         @db.VarChar(255)
-    tgl_pemesanan DateTime       @db.DateTime()
-    total         Float          @default(0)
-    is_paid       Boolean        @default(false)
-    room_id       Int
-    room          rooms          @relation(fields: [room_id], references: [id], onDelete: Cascade)
-    user_id       Int?
-    user          users?         @relation(fields: [user_id], references: [id], onDelete: Cascade)
-    created_at    DateTime       @default(now())
-    updated_at    DateTime       @updatedAt
-    booking_food  booking_food[]
+    id             Int            @id @default(autoincrement())
+    nama_pemesan   String         @db.VarChar(255)
+    email_pemesan  String         @db.VarChar(255)
+    tgl_pemesanan  DateTime       @db.DateTime()
+    total          Float          @default(0)
+    is_finished    Boolean        @default(false)
+    room_id        Int
+    room           rooms          @relation(fields: [room_id], references: [id], onDelete: Cascade)
+    user_id        Int?
+    user           users?         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    is_paid        payment_method @default(PENDING)
+    transaction_id String?        @db.VarChar(255)
+    payment_type   String?        @db.VarChar(255)
+    created_at     DateTime       @default(now())
+    updated_at     DateTime       @updatedAt
+    booking_food   booking_food[]
 }
 
 model booking_food {

@@ -85,13 +85,12 @@ router.delete(
 // Bookings Route
 router.get("/api/bookings", authMiddleware, bookingController.index);
 router.get("/api/bookings/:id", authMiddleware, bookingController.show);
-router.post("/api/bookings/create", authMiddleware, bookingController.create);
-router.put(
-  "/api/bookings/:id/update",
+router.get(
+  "/api/bookings/:id/finish-booking",
   authMiddleware,
-  adminMiddleware,
-  bookingController.update
+  bookingController.finishBooking
 );
+router.post("/api/bookings/create", authMiddleware, bookingController.create);
 router.delete(
   "/api/bookings/:id/delete",
   authMiddleware,
@@ -121,4 +120,12 @@ router.delete(
   bannerController.destroy
 );
 
+// Midtrans Route
+router.post(
+  "/api/midtrans/notification",
+  bookingController.midtransNotification
+);
+
+// Xendit Route
+router.post("/api/xendit/notification", bookingController.xenditNotifications);
 module.exports = router;
