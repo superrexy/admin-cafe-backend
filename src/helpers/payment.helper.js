@@ -45,13 +45,6 @@ module.exports = {
           break;
       }
 
-      console.log({
-        channelCode: params.channelCode,
-        currency: "IDR",
-        checkoutMethod: "ONE_TIME_PAYMENT",
-        ...params,
-      });
-
       return new EWallet().createEWalletCharge({
         channelCode: params.channelCode,
         currency: "IDR",

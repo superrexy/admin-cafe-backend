@@ -369,8 +369,6 @@ module.exports = {
 
         let payment = await paymentXendit(parameter);
 
-        console.log(payment);
-
         if (payment_type.toLowerCase() !== "ovo") {
           payment_url = payment.actions.mobile_web_checkout_url;
         } else {
@@ -533,6 +531,7 @@ module.exports = {
     apiClient.transaction
       .notification(req.body)
       .then(async (statusResponse) => {
+        console.log("statusResponse-midtrans", statusResponse);
         const orderId = statusResponse.order_id;
         const transactionStatus = statusResponse.transaction_status;
 
@@ -607,6 +606,8 @@ module.exports = {
           message: "SUCCESS",
         });
       }
+
+      console.log("statusResponse-xendit", data);
 
       const bookingId = data.reference_id.split("-")[1];
 
