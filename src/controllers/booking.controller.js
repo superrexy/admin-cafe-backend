@@ -601,6 +601,13 @@ module.exports = {
       const { data } = req.body;
       let status = "";
 
+      if (data.reference_id == "test-payload") {
+        return res.status(200).json({
+          status: true,
+          message: "SUCCESS",
+        });
+      }
+
       const bookingId = data.reference_id.split("-")[1];
 
       switch (data.status) {
