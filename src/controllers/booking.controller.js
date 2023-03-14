@@ -523,7 +523,7 @@ module.exports = {
   },
   midtransNotification: async (req, res) => {
     const apiClient = new midtransClient.Snap({
-      isProduction: process.env.NODE_ENV === "production",
+      isProduction: false,
       serverKey: process.env.MIDTRANS_SERVER_KEY,
       clientKey: process.env.MIDTRANS_CLIENT_KEY,
     });
