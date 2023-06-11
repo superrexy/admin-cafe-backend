@@ -27,6 +27,7 @@ jobs:
           envkey_MIDTRANS_SERVER_KEY: ${{ secrets.MIDTRANS_SERVER_KEY }}
           envkey_XENDIT_SECRET_API: ${{ secrets.XENDIT_SECRET_API }}
           envkey_XENDIT_TOKEN_VERIFICATION: ${{ secrets.XENDIT_TOKEN_VERIFICATION }}
+          envkey_MARIADB_ROOT_PASSWORD: ${{ secrets.MARIADB_ROOT_PASSWORD }}
 
       - name: Docker Login
         uses: docker/login-action@v2.1.0
