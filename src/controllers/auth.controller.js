@@ -17,7 +17,6 @@ module.exports = {
         password,
         phone_number,
         address,
-        birth_date,
       } = req.body;
 
       if (!first_name || !email || !password) {
@@ -54,7 +53,6 @@ module.exports = {
           password: hashedPassword,
           phone_number,
           address,
-          birth_date: new Date(birth_date),
         },
       });
 
